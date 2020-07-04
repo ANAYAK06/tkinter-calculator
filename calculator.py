@@ -1,8 +1,9 @@
 from tkinter import *
+from tkinter import messagebox
 
 screen = Tk()
 screen.title("Calculator")
-screen.geometry("311x432")
+screen.geometry("312x520")
 screen.resizable(0, 0)
 screen.iconbitmap("cal.ico")
 screen.configure(bg = '#5e6265')
@@ -22,7 +23,24 @@ def clear():
 
 def equal():
     global operation
+    try:
+        result = eval(operation)
+        operation = str(result)
+        data.set(result)
+    except:
+        messagebox.showinfo(title = "Notification", message = "No Values Found..!!", )
+
+
+def backspace():
+    global operation
+    operation = operation[: -1]
+    data.set(operation)
+
+
+def percentage():
+    global operation
     result = eval(operation)
+    result = result / 100
     operation = str(result)
     data.set(result)
 
@@ -194,5 +212,48 @@ btn_add = Button(screen,
                  command = lambda: click('+')
                  )
 btn_add.grid(row = 4, column = 4, )
+
+btn_point = Button(screen, text = '.', font = ("Verdana", 20), padx = 18, pady = 13,
+                   relief = GROOVE,
+                   border = 4,
+                   background = "#000000",
+                   fg = "#ffffff",
+                   command = lambda: click('.'))
+btn_point.grid(row = 5, column = 0, )
+
+btn_per = Button(screen,
+                 text = '%',
+                 font = ("Verdana", 16),
+                 padx = 15,
+                 pady = 18,
+                 relief = GROOVE,
+                 border = 4,
+                 background = "#000000",
+                 fg = "#ffffff",
+                 command = percentage
+                 )
+btn_per.grid(row = 5, column = 1, )
+
+btn_p_m = Button(screen, text = '+/-', font = ("Verdana", 14), padx = 13, pady = 20,
+                 relief = GROOVE,
+                 border = 4,
+                 background = "#000000",
+                 fg = "#ffffff",
+                 command = lambda: click('-'),
+                 )
+btn_p_m.grid(row = 5, column = 3, )
+
+btn_back = Button(screen,
+                  text = u"\u2190",
+                  font = ("Verdana", 18),
+                  padx = 13,
+                  pady = 16,
+                  relief = GROOVE,
+                  border = 4,
+                  background = "#000000",
+                  fg = "#ffffff",
+                  command = backspace,
+                  )
+btn_back.grid(row = 5, column = 4, )
 
 screen.mainloop()
